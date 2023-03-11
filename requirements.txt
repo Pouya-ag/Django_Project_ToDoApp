@@ -1,2 +1,5 @@
 django >3.2,<3.3
 Pillow
+djangorestframework
+markdown
+django-filter

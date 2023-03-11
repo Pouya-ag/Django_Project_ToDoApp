@@ -14,6 +14,7 @@ def login_view(request):
             login(request,user)
             return redirect('/ToDoList/tasks/')
         else:
+            # If account doesn't exist we will redirect to register page
             return redirect('/accounts/register/')
     return render(request, 'login.html')
 
