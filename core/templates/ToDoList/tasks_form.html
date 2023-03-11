@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card mx-auto my-5" style="width: 30rem;">
+  <form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="save">
+  </form>
+    <ul class="list-group list-group-flush">
+      {% for task in all_tasks %}
+        {% if task.IsDone is not True %}
+        <li class="list-group-item">
+          {{task.task}}
+        </li>
+        <div class="p-1 m-1">
+          <a href="{% url 'done-tesk' pk=task.id %}">Done</a>
+          <a href="{% url 'edit-tesk' pk=task.id %}">Edit</a>
+          <a href="{% url 'delete-tesk' pk=task.id %}">Delete</a>
+        </div>
+        {% else %}
+        <li class="list-group-item">
+          <del>{{task.task}}</del>
+        </li>
+        <a href="{% url 'delete-tesk' pk=task.id %}">Delete</a>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

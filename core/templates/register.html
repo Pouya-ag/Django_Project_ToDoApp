@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    <div class="form-outline mb-4">
+        <input type="email" id="form1Example13" name="useremail" class="form-control form-control-lg" />
+        <label class="form-label" for="form1Example13">Email</label>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="form1Example23" name="password1" class="form-control form-control-lg" />
+        <label class="form-label" for="form1Example23">Password</label>
+      </div>
+      
+      <div class="form-outline mb-4">
+        <input type="password" id="form1Example23" name="password2" class="form-control form-control-lg" />
+        <label class="form-label" for="form1Example23">Confirm Password</label>
+      </div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">Sign up</button>
+
+  </form>
+
+{% endblock %}
