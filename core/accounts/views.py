@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from .models import User
+# from django.contrib.auth import get_user_model
+# User = get_user_model()
 
 
 def login_view(request):
@@ -12,10 +16,25 @@ def login_view(request):
             login(request,user)
             return redirect('/ToDoList/tasks/')
         else:
-            return redirect('/register')
+            return redirect('/accounts/register/')
     return render(request, 'login.html')
 
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+
+def register_view(request):
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = UserCreationForm(request.POST)
+            email = request.POST.get('email')
+            password = request.POST.get('password1')
+            print(email,password)
+            user = User.object.create_user(email=email, password=password)
+            user.save()
+            return redirect('/')
+        return render(request, 'accounts/register.html')
+    else:
+        return redirect('/')
