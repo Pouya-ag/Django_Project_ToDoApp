@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="post" action="{% url 'register' %}">
+<form method="post" action="{% url 'accounts:register' %}">
     {% csrf_token %}
     <div class="form-outline mb-4">
         <input type="email" id="form1Example13" name="email" class="form-control form-control-lg" />

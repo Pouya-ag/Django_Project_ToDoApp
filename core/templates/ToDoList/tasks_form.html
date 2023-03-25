@@ -14,15 +14,15 @@
           {{task.task}}
         </li>
         <div class="p-1 m-1">
-          <a href="{% url 'done-tesk' pk=task.id %}">Done</a>
-          <a href="{% url 'edit-tesk' pk=task.id %}">Edit</a>
-          <a href="{% url 'delete-tesk' pk=task.id %}">Delete</a>
+          <a href="{% url 'tasks:done-tesk' pk=task.id %}">Done</a>
+          <a href="{% url 'tasks:edit-tesk' pk=task.id %}">Edit</a>
+          <a href="{% url 'tasks:delete-tesk' pk=task.id %}">Delete</a>
         </div>
         {% else %}
         <li class="list-group-item">
           <del>{{task.task}}</del>
         </li>
-        <a href="{% url 'delete-tesk' pk=task.id %}">Delete</a>
+        <a href="{% url 'tasks:delete-tesk' pk=task.id %}">Delete</a>
         {% endif %}
       {% endfor %}
     </ul>
