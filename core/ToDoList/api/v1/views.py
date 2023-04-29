@@ -97,7 +97,6 @@ class TaskDetail(APIView):
         return self.create(request, *args, **kwargs)'''
 
 
-# لطفا کامنت بزارید و راهنمایی کنید که این اکشن های ای پی آی رو چطور به فرانت منتقل کنیم تا اکشن های حال حاضر  واقعا به بک اند ریکوئست بزنه و ای پی آی بگیره
 # if we wanna use ListAPIView & CreateAPIView
 class TaskList(ListAPIView, CreateAPIView):
     permission_classes = [IsAuthenticated]
