@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
-from rest_framework import mixins
+from rest_framework import mixins,viewsets
 
 # if we wanna use api_view:
 """@api_view(["GET","POST","PUT"])
@@ -98,7 +98,7 @@ class TaskDetail(APIView):
 
 
 # if we wanna use ListAPIView & CreateAPIView
-class TaskList(ListAPIView, CreateAPIView):
+'''class TaskList(ListAPIView, CreateAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ToDoListSerializer
 
@@ -110,4 +110,42 @@ class TaskDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = ToDoListSerializer
 
     def get_queryset(self):
+        return Tasks.objects.filter(email = self.request.user)'''
+
+
+# if we wanna use viewsets
+class TaskList(viewsets.ViewSet):
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = ToDoListSerializer
+
+    def get_queryset(self):
         return Tasks.objects.filter(email = self.request.user)
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+    def create(self, request):
+        serializer = self.serializer_class(data = request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=201)
+
+    def retrieve(self, request, pk=None):
+        task_object = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.serializer_class(task_object)
+        return Response(serializer.data)
+
+    def update(self, request, pk=None):
+        task_object = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.serializer_class(task_object, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+    def destroy(self, request, pk=None):
+        task_object = get_object_or_404(self.get_queryset(), pk=pk)
+        task_object.delete()
+        return Response(status=204)

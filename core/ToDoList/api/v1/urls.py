@@ -6,6 +6,8 @@ app_name = "todolist-api-v1"
 urlpatterns = [
     # path('list/', views.list_view, name="list"),
     # path('list/<int:pk>/', views.task_detail, name="task-detail"),
-    path('list/', views.TaskList.as_view(), name="task-list"),
-    path('list/<int:pk>/', views.TaskDetail.as_view(), name="task-detail"),
+    # path('list/', views.TaskList.as_view(), name="task-list"),
+    # path('list/<int:pk>/', views.TaskDetail.as_view(), name="task-detail"),
+    path('list/', views.TaskList.as_view({'get':'list', 'post':'create'}), name="task-list"),
+    path('list/<int:pk>/', views.TaskList.as_view({'get':'retrieve', 'put':'update', 'delete':'destroy'}), name="task-detail"),
 ]
